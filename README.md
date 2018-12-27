@@ -22,10 +22,8 @@ Also, you might want to look at the following pages, which were only slightly he
 solution was to use brute force trial and error. The docs suck.
 
 * https://github.com/dotnet/roslyn/wiki/Runtime-code-generation-using-Roslyn-compilations-in-.NET-Core-App
-
 * https://github.com/dotnet/roslyn/issues/21205
-
 * https://luisfsgoncalves.wordpress.com/2017/03/20/referencing-system-assemblies-in-roslyn-compilations/
-
+* https://www.codeproject.com/Articles/1215168/Using-Roslyn-for-Compiling-Code-into-Separate-Net
 
 --Ken, December 27, 2018

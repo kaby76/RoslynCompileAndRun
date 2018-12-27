@@ -33,20 +33,20 @@ namespace CompileLinkAndRun
             }
             else
             {
-                string mscorlib = "";
-                if (IntPtr.Size == 4)
-                {
-                    // 32-bit
-                    mscorlib = @"C:\Windows\Microsoft.NET\assembly\GAC_32\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll";
-                }
-                else if (IntPtr.Size == 8)
-                {
-                    // 64-bit
-                    mscorlib = @"C:\Windows\Microsoft.NET\assembly\GAC_64\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll";
-                }
-                else
-                    throw new Exception();
-                result.Add(mscorlib);
+                //string mscorlib = "";
+                //if (IntPtr.Size == 4)
+                //{
+                //    // 32-bit
+                //    mscorlib = @"C:\Windows\Microsoft.NET\assembly\GAC_32\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll";
+                //}
+                //else if (IntPtr.Size == 8)
+                //{
+                //    // 64-bit
+                //    mscorlib = @"C:\Windows\Microsoft.NET\assembly\GAC_64\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll";
+                //}
+                //else
+                //    throw new Exception();
+                //result.Add(mscorlib);
             }
 
             foreach (var r in result)
@@ -121,10 +121,13 @@ namespace ClassLibrary2
             assemblyName = Path.ChangeExtension(assemblyName, "dll");
             string symbolsName = Path.ChangeExtension(assemblyName, "pdb");
 
+            // Magic starts here.
             Type type = typeof(Class1);
             var dependencies = new List<MetadataReference>();
             FixUpMetadataReferences(dependencies, type);
+            // Pulls in mscorlib.dll, or System.Private.CoreLib for Net Core.
             FixUpMetadataReferences(dependencies, typeof(System.Object));
+            // Endith the magic.
 
             CSharpCompilation compilation = CSharpCompilation.Create(
                 assemblyName,
@@ -168,11 +171,6 @@ namespace ClassLibrary2
             }
 
             var types = assembly.GetTypes();
-            foreach (var t2 in types)
-            {
-                System.Console.WriteLine(t2.FullName);
-            }
-
             string name = "ClassLibrary2.Class2";
             Type t = assembly.GetType(name);
             string method_name = "Doit";
